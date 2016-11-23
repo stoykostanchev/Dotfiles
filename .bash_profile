@@ -1,23 +1,23 @@
-function start_agent {
-    echo "Initialising new SSH agent..."
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
-}
-
-# Source SSH settings, if applicable
-
-if [ -f "${SSH_ENV}" ]; then
-    . "${SSH_ENV}" > /dev/null
-    #ps ${SSH_AGENT_PID} doesn't work under cywgin
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-        start_agent;
-    }
-else
-    start_agent;
-fi
+#function start_agent {
+#    echo "Initialising new SSH agent..."
+#    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+#    echo succeeded
+#    chmod 600 "${SSH_ENV}"
+#    . "${SSH_ENV}" > /dev/null
+#    /usr/bin/ssh-add;
+#}
+#
+## Source SSH settings, if applicable
+#
+#if [ -f "${SSH_ENV}" ]; then
+#    . "${SSH_ENV}" > /dev/null
+#    #ps ${SSH_AGENT_PID} doesn't work under cywgin
+#    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+#        start_agent;
+#    }
+#else
+#    start_agent;
+#fi
 
 
 
@@ -67,6 +67,10 @@ export WHITE
 export BOLD
 export RESET
 
+function parse_git_dirty {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+
 function parse_git_branch() {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/*\(.*\)/\1$(parse_git_dirty)/"
 }
@@ -75,3 +79,16 @@ if [ "x${SSH_TTY}" = "x" ]; then
   export PS1="\[${BOLD}${CYAN}\]\u \[$MAGENTA\]\W\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on\")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\] \$ \[$RESET\]"
   export PS2="\[$ORANGE\]→ \[$RESET\]"
 fi
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+PATH=/opt/local/bin:$PATH
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --disable-web-security"
+alias chrome_local="chrome http://localhost:3000 --new-window"
+alias work="
+  chrome_local --window-size=600x800 --window-position=500,300 &
+  chrome_local --window-size=300x200 &
+  chrome_local --window-size=300x200 &
+  chrome_local --window-size=300x200 &
+  chrome_local --window-size=300x200
+"
+

@@ -5,7 +5,6 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'tpope/vim-surround'
-Plugin 'skammer/vim-css-color'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mustache/vim-mustache-handlebars'
 " All of your Plugins must be added before the following line
@@ -23,4 +22,12 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 set autoindent
-set clipboard=unnamed
+" set clipboard=unnamed
+let g:html_indent_script1 = "inc" 
+let g:html_indent_style1 = "inc" 
+let g:html_indent_inctags = "html,body,head,p,main"
+set fdm=indent
+set tw=79
+set foldlevel=2
+set noswapfile
+autocmd BufWritePre * %s/\s\+$//e
