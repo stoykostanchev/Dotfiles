@@ -16,6 +16,10 @@ Plugin 'mhinz/vim-signify'
 Plugin 'ctrlpvim/ctrlp.vim'
 "Visual marks
 Plugin 'kshenoy/vim-signature'
+"Visual colors
+Plugin 'ap/vim-css-color'
+"Searching a word from within vim
+Plugin 'mileszs/ack.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -65,3 +69,16 @@ let g:syntastic_scss_checkers  = ['sasslint']
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+"easier navigation on the buffer tabs
+nnoremap <silent> gb :bprev<CR>
+nnoremap <silent> gn :bnext<CR>
+"ack - use ag
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+"ack - do not open the first result by default
+cnoreabbrev Ack Ack!
+set showcmd
+nnoremap <silent> <CR> :Ack!<CR>
+"removes the . from wors, so that 'my.prop|erty.is' [aiw] returns 'property'
+set iskeyword-=.
