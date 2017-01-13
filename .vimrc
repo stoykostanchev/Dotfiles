@@ -20,6 +20,8 @@ Plugin 'kshenoy/vim-signature'
 Plugin 'ap/vim-css-color'
 "Searching a word from within vim
 Plugin 'mileszs/ack.vim'
+Plugin 'tpope/vim-commentary'
+Plugin 'noahfrederick/vim-skeleton'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -82,3 +84,4 @@ set showcmd
 nnoremap <silent> <CR> :Ack!<CR>
 "removes the . from wors, so that 'my.prop|erty.is' [aiw] returns 'property'
 set iskeyword-=.
+set iskeyword+=-
