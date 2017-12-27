@@ -13,7 +13,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'vim-airline/vim-airline'
-Plugin 'vim-syntastic/syntastic'
+"Plugin 'vim-syntastic/syntastic'
 Plugin 'gcorne/vim-sass-lint'
 Plugin 'leafgarland/typescript-vim'
 "show git diffs of the file in the file
@@ -32,6 +32,13 @@ Plugin 'posva/vim-vue'
 Plugin 'fatih/vim-go'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'w0rp/ale'
+Plugin 'roxma/nvim-completion-manager' " Needs pip3 install --user neovim jedi psutil setproctitle afterwards
+Plugin 'roxma/nvim-cm-tern', { 'do' : 'npm install' }
+Plugin 'fgrsnau/ncm-otherbuf'
+Plugin 'mhartington/nvim-typescript' " needs :UpdateRemotePlugins run once after installation
+Plugin 'calebeby/ncm-css'
+Plugin 'jiangmiao/auto-pairs'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -74,17 +81,43 @@ let s:hidden_all = 1
 set noruler
 set noshowcmd
 "------------
-"Syntastic
-let g:syntastic_enable_signs=1
+
+"Syntastic -> trying out w0rp instead
+"let g:syntastic_enable_signs=1
 "let g:syntastic_auto_jump=1
-let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_scss_checkers  = ['sasslint']
-" npm install tslint -g    - might be needed for the 2 above as well. Also
-" needs typescript installed
-let g:syntastic_typescript_checkers = ['tslint']
-let g:syntastic_typescript_tsc_fname = '~/Work/site-creator/base-site/tslint.json'
-" let g:sass_lint_config = '~/Work/site-creator/base-site/.sass-lint.yaml'
+"let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+"let g:syntastic_javascript_checkers = ['jshint']
+"let g:syntastic_scss_checkers  = ['sasslint']
+
+" w0rp -
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'typescript': ['eslint'],
+\}
+let g:ale_completion_enabled = 1
+
+" Set this setting in vimrc if you want to fix files automatically on save.
+" This is off by default.
+let g:ale_fix_on_save = 1
+
+" Fix python 3 support for neovim, to enable plugins to do async stuff to vim
+let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python_host_prog = '/usr/bin/python'
+
+" Setup for the nvim completion manager
+" don't give |ins-completion-menu| messages.  For example,
+" '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
+set shortmess+=c
+inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<cr>" : "\<CR>")
+inoremap <c-c> <ESC>
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" TS completion
+" Enable deoplete at startup
+let g:deoplete#enable_at_startup = 1
+
+
 "Ctrlp - set controls to search files. ctrl + j / k to move up down etc.
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -107,3 +140,4 @@ set iskeyword-=_
 "Sets the active directory in the active window to be the file
 "autocmd BufEnter * silent! lcd %:p:h
 set nowrap "allow long lines
+

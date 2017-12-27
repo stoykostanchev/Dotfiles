@@ -83,6 +83,7 @@
 #Source might have an exit, which means the rest of the bash profile might not
 #be exec;
  source $(brew --prefix nvm)/nvm.sh
+ source ~/.bashrc
  PATH=/opt/local/bin:$PATH
  alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --disable-web-security"
  alias chrome_local="chrome http://localhost:3000 --new-window"
