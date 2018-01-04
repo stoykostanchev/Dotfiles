@@ -1,8 +1,8 @@
 set nocompatible              " be iMproved, required
 " auto-reads and refreshes the file for the auto-fixing by eslint
 " https://stackoverflow.com/questions/2157914/can-vim-monitor-realtime-changes-to-a-file
-set autoread
-au CursorHold * checktime
+" set autoread
+" au CursorHold * checktime
 " ---
 filetype off                  " required
 
@@ -15,7 +15,7 @@ Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'vim-airline/vim-airline'
 "Plugin 'vim-syntastic/syntastic'
 Plugin 'gcorne/vim-sass-lint'
-Plugin 'leafgarland/typescript-vim'
+"Plugin 'leafgarland/typescript-vim'
 "show git diffs of the file in the file
 Plugin 'mhinz/vim-signify'
 "ctrl+p fuzzy search of files
@@ -37,51 +37,51 @@ Plugin 'roxma/nvim-completion-manager' " Needs pip3 install --user neovim jedi p
 Plugin 'roxma/nvim-cm-tern', { 'do' : 'npm install' }
 Plugin 'fgrsnau/ncm-otherbuf'
 Plugin 'mhartington/nvim-typescript' " needs :UpdateRemotePlugins run once after installation
+Plugin 'HerringtonDarkholme/yats.vim' " ts highlighting
 Plugin 'calebeby/ncm-css'
-Plugin 'jiangmiao/auto-pairs'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 "Fugitive. Set horizontal split by def
-set diffopt+=vertical
-set number
-syntax on
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-set autoindent
-" E*--
-set expandtab
-"set noexpandtab
-set listchars=tab:--,trail:~,extends:>,precedes:<
-set list
-" ----
-" set clipboard=unnamed
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
-let g:html_indent_inctags = "html,body,head,p,main"
-set scrolloff=10 "set 10 lines after searching
-set fdm=indent
-set tw=79
-set foldlevel=1
-set noswapfile
-set directory=~/.vim/swps
-autocmd BufWritePre * %s/\s\+$//e
-"Shows the current file. Used by vim-airline
-set laststatus=2
-let g:airline#extensions#tabline#enabled = 1 "show buffers
-"Hides stuff that are shown with vim-airline instead
-set noshowmode
-let s:hidden_all = 1
-set noruler
-set noshowcmd
-"------------
+ set diffopt+=vertical
+ set number
+ syntax on
+ set tabstop=2
+ set softtabstop=2
+ set shiftwidth=2
+ noremap <Up> <NOP>
+ noremap <Down> <NOP>
+ noremap <Left> <NOP>
+ noremap <Right> <NOP>
+ set autoindent
+ " E*--
+ set expandtab
+ "set noexpandtab
+ set listchars=tab:--,trail:~,extends:>,precedes:<
+ set list
+ " ----
+ " set clipboard=unnamed
+ let g:html_indent_script1 = "inc"
+ let g:html_indent_style1 = "inc"
+ let g:html_indent_inctags = "html,body,head,p,main"
+ set scrolloff=10 "set 10 lines after searching
+ set fdm=indent
+ set tw=79
+ set foldlevel=1
+ set noswapfile
+ set directory=~/.vim/swps
+ "Shows the current file. Used by vim-airline
+ set laststatus=2
+ let g:airline#extensions#tabline#enabled = 1 "show buffers
+ "Hides stuff that are shown with vim-airline instead
+ set noshowmode
+ let s:hidden_all = 1
+ set noruler
+ set noshowcmd
+" ------------
 
+" ==================================================================
 "Syntastic -> trying out w0rp instead
 "let g:syntastic_enable_signs=1
 "let g:syntastic_auto_jump=1
@@ -90,12 +90,19 @@ set noshowcmd
 "let g:syntastic_scss_checkers  = ['sasslint']
 
 " w0rp -
-let g:ale_fixers = {
+ let g:ale_fixers = {
+ \   'javascript': ['eslint'],
+ \   'typescript': ['tslint'],
+ \}
+" Run :ALEInfo to see if you can debug
+let g:ale_javascript_eslint_options='--fix'
+let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'typescript': ['eslint'],
+\   'typescript': ['tslint', 'tsserver', 'typecheck'],
 \}
 let g:ale_completion_enabled = 1
 
+" ==================================================================
 " Set this setting in vimrc if you want to fix files automatically on save.
 " This is off by default.
 let g:ale_fix_on_save = 1
@@ -107,7 +114,7 @@ let g:python_host_prog = '/usr/bin/python'
 " Setup for the nvim completion manager
 " don't give |ins-completion-menu| messages.  For example,
 " '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
-set shortmess+=c
+"set shortmess+=c
 inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<cr>" : "\<CR>")
 inoremap <c-c> <ESC>
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -138,6 +145,3 @@ set iskeyword-=.
 set iskeyword+=-
 set iskeyword-=_
 "Sets the active directory in the active window to be the file
-"autocmd BufEnter * silent! lcd %:p:h
-set nowrap "allow long lines
-
